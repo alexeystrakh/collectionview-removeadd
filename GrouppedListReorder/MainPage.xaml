@@ -28,58 +28,18 @@
                 HorizontalOptions="FillAndExpand"
                 Orientation="Horizontal">
                 <Button
-                    Command="{Binding StateRefresh}"
+                    Command="{Binding StateAdd}"
                     HorizontalOptions="FillAndExpand"
-                    Text="Refresh" />
+                    Text="Add" />
                 <Button
-                    Command="{Binding StateReset}"
+                    Command="{Binding StateRemove}"
                     HorizontalOptions="FillAndExpand"
-                    Text="Reset" />
+                    Text="Remove" />
                 <Button
-                    Command="{Binding StateTest}"
+                    Command="{Binding StateRemoveAdd}"
                     HorizontalOptions="FillAndExpand"
-                    Text="Test" />
+                    Text="Remove+Add" />
             </StackLayout>
-            <Grid Grid.Row="1" Grid.Column="0">
-                <Label
-                    Padding="10"
-                    BackgroundColor="Beige"
-                    HorizontalTextAlignment="Center"
-                    Text="Control 1">
-                    <Label.GestureRecognizers>
-                        <DragGestureRecognizer
-                            CanDrag="True"
-                            DragStarting="DragGestureRecognizer_DragStarting"
-                            DragStartingCommand="{Binding ItemDragged}"
-                            DragStartingCommandParameter="Control 1" />
-                        <DropGestureRecognizer
-                            AllowDrop="True"
-                            Drop="DropGestureRecognizer_Drop"
-                            DropCommand="{Binding ItemDropped}"
-                            DropCommandParameter="Control 1" />
-                    </Label.GestureRecognizers>
-                </Label>
-            </Grid>
-            <Grid Grid.Row="1" Grid.Column="1">
-                <Label
-                    Padding="10"
-                    BackgroundColor="BlanchedAlmond"
-                    HorizontalTextAlignment="Center"
-                    Text="Control 2">
-                    <Label.GestureRecognizers>
-                        <DragGestureRecognizer
-                            CanDrag="True"
-                            DragStarting="DragGestureRecognizer_DragStarting"
-                            DragStartingCommand="{Binding ItemDragged}"
-                            DragStartingCommandParameter="Control 2" />
-                        <DropGestureRecognizer
-                            AllowDrop="True"
-                            Drop="DropGestureRecognizer_Drop"
-                            DropCommand="{Binding ItemDropped}"
-                            DropCommandParameter="Control 2" />
-                    </Label.GestureRecognizers>
-                </Label>
-            </Grid>
         </Grid>
         <CollectionView x:Name="MyItems" ItemsSource="{Binding Items}">
             <CollectionView.ItemTemplate>
@@ -93,20 +53,7 @@
                             HeightRequest="50"
                             HorizontalTextAlignment="Center"
                             Text="{Binding Title}"
-                            VerticalTextAlignment="Center">
-                            <Label.GestureRecognizers>
-                                <DragGestureRecognizer
-                                    CanDrag="True"
-                                    DragStarting="DragGestureRecognizer_DragStarting_Collection"
-                                    DragStartingCommand="{Binding BindingContext.ItemDragged, Source={x:Reference MyItems}}"
-                                    DragStartingCommandParameter="{Binding}" />
-                                <DropGestureRecognizer
-                                    AllowDrop="True"
-                                    Drop="DropGestureRecognizer_Drop_Collection"
-                                    DropCommand="{Binding BindingContext.ItemDropped, Source={x:Reference MyItems}}"
-                                    DropCommandParameter="{Binding}" />
-                            </Label.GestureRecognizers>
-                        </Label>
+                            VerticalTextAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

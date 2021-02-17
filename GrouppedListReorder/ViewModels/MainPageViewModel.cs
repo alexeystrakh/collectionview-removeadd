@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -15,88 +16,49 @@ namespace GrouppedListReorder.ViewModels
             set { SetProperty(ref _items, value); }
         }
 
-        public ItemViewModel _draggedItem;
-        public ItemViewModel DraggedItem
-        {
-            get { return _draggedItem; }
-            set { SetProperty(ref _draggedItem, value); }
-        }
+        public ICommand StateAdd { get; }
 
-        public ICommand StateRefresh { get; }
+        public ICommand StateRemove { get; }
 
-        public ICommand StateReset { get; }
-
-        public ICommand StateTest { get; }
-
-        public ICommand ItemDragged { get; }
-
-        public ICommand ItemDropped { get; }
+        public ICommand StateRemoveAdd { get; }
 
         public MainPageViewModel()
         {
-            StateRefresh = new Command(OnStateRefresh);
-            StateReset = new Command(OnStateReset);
-            StateTest = new Command(OnStateTest);
-            ItemDragged = new Command<ItemViewModel>(OnItemDragged);
-            ItemDropped = new Command<ItemViewModel>(OnItemDropped);
+            StateAdd = new Command(OnStateAdd);
+            StateRemove = new Command(OnStateRemove);
+            StateRemoveAdd = new Command(OnStateRemoveAdd);
             ResetItemsState();
         }
 
-        private void OnStateRefresh()
+        private void OnStateAdd()
         {
-            Debug.WriteLine($"OnStateRefresh");
-            OnPropertyChanged(nameof(Items));
+            Items.Insert(0, new ItemViewModel { Title = $"Item new {Environment.TickCount}" });
             PrintItemsState();
         }
 
-        private void OnStateReset()
-        {
-            Debug.WriteLine($"OnStateReset");
-            ResetItemsState();
-            PrintItemsState();
-        }
-
-        private void OnStateTest()
+        private void OnStateRemove()
         {
             Items.RemoveAt(4);
-            Items.Insert(0, new ItemViewModel { Title = "Item new 1" });
             PrintItemsState();
         }
 
-        private void OnItemDragged(ItemViewModel item)
+        private void OnStateRemoveAdd()
         {
-            Debug.WriteLine($"OnItemDragged: {item?.Title}");
-            DraggedItem = item;
-        }
-
-        private void OnItemDropped(ItemViewModel item)
-        {
-            var itemToMove = DraggedItem;
-            var itemToInsertBefore = item;
-            DraggedItem = null;
-
-            if (itemToMove == null || itemToInsertBefore == null || itemToMove == itemToInsertBefore)
-                return;
-
-            Items.Remove(itemToMove);
-            var insertAtIndex = Items.IndexOf(itemToInsertBefore);
-            Items.Insert(insertAtIndex, itemToMove);
-            Debug.WriteLine($"OnItemDropped: [{itemToMove?.Title}] => [{itemToInsertBefore?.Title}], target index = [{insertAtIndex}]");
-
-            //OnPropertyChanged(nameof(Items));
+            Items.RemoveAt(4);
+            Items.Insert(0, new ItemViewModel { Title = $"Item new {Environment.TickCount}" });
             PrintItemsState();
         }
 
         private void ResetItemsState()
         {
             Items.Clear();
-            Items.Add(new ItemViewModel { Category = "Category 1", Title = "Item 1" });
-            Items.Add(new ItemViewModel { Category = "Category 1", Title = "Item 2" });
-            Items.Add(new ItemViewModel { Category = "Category 2", Title = "Item 3" });
-            Items.Add(new ItemViewModel { Category = "Category 2", Title = "Item 4" });
-            Items.Add(new ItemViewModel { Category = "Category 2", Title = "Item 5" });
-            Items.Add(new ItemViewModel { Category = "Category 2", Title = "Item 6" });
-            Items.Add(new ItemViewModel { Category = "Category 3", Title = "Item 7" });
+            Items.Add(new ItemViewModel { Title = "Item 1" });
+            Items.Add(new ItemViewModel { Title = "Item 2" });
+            Items.Add(new ItemViewModel { Title = "Item 3" });
+            Items.Add(new ItemViewModel { Title = "Item 4" });
+            Items.Add(new ItemViewModel { Title = "Item 5" });
+            Items.Add(new ItemViewModel { Title = "Item 6" });
+            Items.Add(new ItemViewModel { Title = "Item 7" });
         }
 
         private void PrintItemsState()
