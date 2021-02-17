@@ -11,4 +11,4 @@ Alternatively, you can tap separate remove/add buttons before the remove animati
 <img width='240' src='Images/sim2.png' />
 <img width='240' src='Images/sim1.png' />
 
-[GitHub Issue](https://github.com)
+[GitHub Issue](https://github.com/xamarin/Xamarin.Forms/issues/13791)
